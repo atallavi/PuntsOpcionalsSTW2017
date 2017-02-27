@@ -11,7 +11,7 @@ import urllib2
 
 class Client():
 
-	def htmlObtainer(self, page):
+	def html_obtainer(self, page):
 		#obtenir web
 		f = urllib2.urlopen(page)
 		htmlpage = f.read()
@@ -19,14 +19,19 @@ class Client():
 		return htmlpage
 
 
-	def main(self):
-		htmlpage = self.htmlObtainer("https://www.packtpub.com/packt/offers/free-learning/")
-		#buscar dades
+	#buscar dades
+	def search_data(self, htmlpage):
 		lxmlpage = bs4.BeautifulSoup(htmlpage, 'lxml')
 		parsed_lxml = lxmlpage.find("div", "dotd-title")
 		book_title = parsed_lxml.find("h2").text
-		print book_title
+		return book_title
+
+
+	def main(self):
+		htmlpage = self.html_obtainer("https://www.packtpub.com/packt/offers/free-learning/")
+		book_title = self.search_data(htmlpage)
 		#imprimir
+		print book_title
 
 
 
