@@ -8,11 +8,12 @@ Client web simple per obtenir nom de llibre de PACKT
 '''
 import bs4
 import urllib2
+import subprocess
 
 class Client():
 
+	#obtenir web
 	def html_obtainer(self, page):
-		#obtenir web
 		f = urllib2.urlopen(page)
 		htmlpage = f.read()
 		f.close()
@@ -27,13 +28,15 @@ class Client():
 		return book_title
 
 
+	#Print data
+	def sendmessage(self, message):
+		subprocess.Popen(['notify-send', message])
+
+
 	def main(self):
 		htmlpage = self.html_obtainer("https://www.packtpub.com/packt/offers/free-learning/")
 		book_title = self.search_data(htmlpage)
-		#imprimir
-		print book_title
-
-
+		self.sendmessage(book_title)
 
 
 
