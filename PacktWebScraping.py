@@ -4,7 +4,7 @@
 '''
 Client web simple per obtenir nom de llibre de PACKT
 
-@author: mrg20@alumnes.udl.cat
+@author: mrg20@alumnes.udl.cat--Marc Ribalta Gene
 '''
 import bs4
 import urllib2
