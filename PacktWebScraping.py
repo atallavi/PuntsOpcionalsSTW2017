@@ -6,19 +6,26 @@ Client web simple per obtenir nom de llibre de PACKT
 
 @author: mrg20@alumnes.udl.cat
 '''
-
+import bs4
 import urllib2
 
 class Client():
-	page = "https://www.packtpub.com/packt/offers/free-learning/"
 
-	def main(self):
+	def htmlObtainer(self, page):
 		#obtenir web
-		f = urllib2.urlopen(Client.page)
+		f = urllib2.urlopen(page)
 		htmlpage = f.read()
 		f.close()
-		print htmlpage
+		return htmlpage
+
+
+	def main(self):
+		htmlpage = self.htmlObtainer("https://www.packtpub.com/packt/offers/free-learning/")
 		#buscar dades
+		lxmlpage = bs4.BeautifulSoup(htmlpage, 'lxml')
+		parsed_lxml = lxmlpage.find("div", "dotd-title")
+		book_title = parsed_lxml.find("h2").text
+		print book_title
 		#imprimir
 
 
