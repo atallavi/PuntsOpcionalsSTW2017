@@ -30,6 +30,7 @@ class Client():
 
 	#Print data
 	def sendmessage(self, message):
+		#If error on execute, install or reinstall  libnotify-bin
 		subprocess.Popen(['notify-send', message])
 
 
