@@ -9,11 +9,17 @@ Get prevision from Weather Underground and give recomendations.
 '''
 
 import sys
+import requests #should download it
 
 
 api_key = None #Should not do this
 
 class WundergroundClient(object):
+
+	urlbase = "http://api.wunderground.com/api/"
+	url_services = {
+		"hourly":"/hourly/q/CA/"
+	}
 
 
 	def __init__(self, apikey):
@@ -22,6 +28,14 @@ class WundergroundClient(object):
 
 	def hourly(self, location):
 		#Get web info
+		resp_format = "json"
+		url = WundergroundClient.urlbase + self.apikey + \
+			  WundergroundClient.url_services["hourly"] + \
+			  location + "." + resp_format
+
+		r = requests.get(url)
+
+		print r.text
 		#Parse info
 		#Print Prevision
 		#Make a recomendation
