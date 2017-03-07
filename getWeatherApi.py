@@ -45,12 +45,18 @@ class WundergroundClient(object):
 		jsoninfo = jsondata["hourly_forecast"]
 		#Print Prevision
 		print "Prevision for "+location
-		print jsoninfo[0]["wx"]
-		print jsoninfo[0]["humidity"]
-		print jsoninfo[0]["temp"]["metric"]
+		self.print_prevision("In an hour: ", jsoninfo[0])
+		self.print_prevision("Next hours: ", jsoninfo[4])
+		self.print_prevision("In 24 hours: ", jsoninfo[23])
 		#Make a recomendation
 		#Print recomendation
 
+
+	def print_prevision(self, phrase, parameter):
+		print phrase
+		print "    "+"The sky will be: "+parameter["wx"]
+		print "    "+"Centigrate temperature: "+parameter["temp"]["metric"]
+		print "    "+"The percentage of humidity will be: "+parameter["humidity"]
 
 
 
