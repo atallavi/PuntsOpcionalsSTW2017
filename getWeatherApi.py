@@ -15,6 +15,17 @@ import json
 api_key = None #Should not even do this
 
 class WundergroundClient(object):
+	#Make a recomendation
+	recomendation_degrees = {
+	'calor':'Oportunity for a cold beer, wear short sleeve.',
+	'normal':'Really good day, take a spring jacket.',
+	'fred':'Cold, winter is comming.'
+	}
+	recomendation_sky = {
+	'Clear' : ' Sunny day, come on go outside you antisocial.',
+	'Mostly Clear' : ' Almost sunny, maybe you can go outside... Joking.',
+	'Other' : ' You do not go outside when it is sunny, now even less.'
+	}
 
 	urlbase = "http://api.wunderground.com/api/"
 	url_services = {
@@ -43,13 +54,21 @@ class WundergroundClient(object):
 		#Parse info
 		jsondata = json.loads(r.text)
 		jsoninfo = jsondata["hourly_forecast"]
+
 		#Print Prevision
 		print "Prevision for "+location
 		self.print_prevision("In an hour: ", jsoninfo[0])
-		self.print_prevision("Next hours: ", jsoninfo[4])
+		self.print_prevision("Next hours: ", jsoninfo[5])
 		self.print_prevision("In 24 hours: ", jsoninfo[23])
-		#Make a recomendation
+
 		#Print recomendation
+		parameter = jsoninfo[1]
+		if (int(parameter["temp"]["metric"])>30):
+			self.print_recomendation(parameter, "calor")
+		elif ((int)(parameter["temp"]["metric"])<=30 and (int)(parameter["temp"]["metric"])>15):
+			self.print_recomendation(parameter, "normal")
+		else:
+			self.print_recomendation(parameter, "fred")
 
 
 	def print_prevision(self, phrase, parameter):
@@ -59,6 +78,13 @@ class WundergroundClient(object):
 		print "    "+"The percentage of humidity will be: "+parameter["humidity"]
 
 
+	def print_recomendation(self, parameter, degrees_esp):
+		if(parameter["wx"]=="Clear" or parameter["wx"]=="Mostly Clear"):
+			print WundergroundClient.recomendation_degrees[degrees_esp]+\
+				WundergroundClient.recomendation_sky[parameter["wx"]]
+		else:
+			print WundergroundClient.recomendation_degrees[degrees_esp]+\
+				WundergroundClient.recomendation_sky["Other"]
 
 
 if __name__ == '__main__':
